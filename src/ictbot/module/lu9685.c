@@ -47,7 +47,7 @@ void LU9685_SetAction(LU9685Struct *servo_arr_p, uint8_t servo_arr_len,
     switch (servo_action) {
         case 0x00:
             for (uint8_t i = 0; i < 10; i++) {
-                SET_SERVO_POS(servo_arr_p,  80,  80,  80,  80,  80);
+                SET_SERVO_POS(servo_arr_p,  70,  70,  70,  70,  70);
                 SET_SERVO_POS(servo_arr_p, 110, 110, 110, 110, 110);
             }
             break;
