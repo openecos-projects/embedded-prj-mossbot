@@ -3,8 +3,8 @@
 # These can be overridden from the command line (e.g., make APP_TYPE=sdram)
 # ==============================================================================
 
-# Application Name (default: ictbot)
-APP_NAME ?= ictbot
+# Application Name
+APP_NAME ?= v1
 # Build Type: flash, mem, or sdram
 APP_TYPE ?= flash
 # Architecture definition
