@@ -3,6 +3,6 @@ SRCS = main.c \
        driver/timer.c \
        driver/uart.c \
        module/lu9685.c
-NAME = v1
+NAME = ictbot
 
 include $(AM_HOME)/Makefile
