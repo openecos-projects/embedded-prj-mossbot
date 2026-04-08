@@ -78,9 +78,8 @@ void LU9685_SetAction(LU9685Struct *servo_arr_p, uint8_t servo_arr_len,
 }
 
 void LU9685_SetAngle(uint8_t servo_val_1, uint8_t servo_val_2) {
-    printf("[lu9685] move servo 1 to %d degree...\n", servo_val_1);
-    printf("[lu9685] move servo 2 to %d degree...\n", servo_val_2);
-    LU9685_SetAngleSingle(0, servo_val_1);
-    LU9685_SetAngleSingle(1, servo_val_2);
-    printf("[lu9685] move servo done!\n");
+    printf("[lu9685] move servo angle ...\n");
+    LU9685_SetAngleSingle(12, servo_val_1);
+    LU9685_SetAngleSingle(11, servo_val_2);
+    printf("[lu9685] move servo angle done!\n");
 }
