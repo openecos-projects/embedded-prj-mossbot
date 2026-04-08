@@ -30,5 +30,6 @@ void LU9685_SetAngleSingle(uint8_t servo_idx, uint8_t servo_val);
 void LU9685_SetAngleMulti(LU9685Struct *servo_arr_p, uint8_t servo_arr_len);
 void LU9685_SetAction(LU9685Struct *servo_arr_p, uint8_t servo_arr_len,
                                                  uint8_t servo_action);
+void LU9685_SetAngle(uint8_t servo_val_1, uint8_t servo_val_2);
 
 #endif

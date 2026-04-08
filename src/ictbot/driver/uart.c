@@ -9,14 +9,13 @@ void UART_Init(uint32_t baud) {
     UART_1_REG_FCR = (uint32_t)0b1111;              // clear tx and rx fifo
     UART_1_REG_FCR = (uint32_t)0b1100;
     UART_1_REG_LCR = (uint32_t)0b00011111;          // 8N1, en all irq
-    // printf("REG_DIV: %x REG_LCR: %x\n", UART_1_REG_DIV, UART_1_REG_LCR);
     printf("[uart] init done!\n");
 }
 
-uint8_t UART_RecvData(uint8_t *uart_arr_p,
-                      uint8_t *uart_arr_cnt_p,
-                      uint8_t  uart_data,
-                      uint8_t *servo_action_p) {
+uint8_t UART_RecvDataAction(uint8_t *uart_arr_p,
+                            uint8_t *uart_arr_cnt_p,
+                            uint8_t  uart_data,
+                            uint8_t *servo_action_p) {
     printf("[uart] data %d is 0x%x\n", *uart_arr_cnt_p, uart_data);
 
     uart_arr_p[*uart_arr_cnt_p] = uart_data;
@@ -45,6 +44,56 @@ uint8_t UART_RecvData(uint8_t *uart_arr_p,
         *uart_arr_cnt_p = 0;
         if (uart_checksum == uart_checkbit) {
             *servo_action_p = uart_action;
+            printf("[uart] checksum is ok!\n");
+            return UART_STATUS_SUCCESS;
+        }
+        else {
+            printf("[uart] checksum is invalid!\n");
+            return UART_STATUS_ERROR;
+        }
+    }
+    else {
+    }
+
+    return UART_STATUS_PASS;
+}
+
+uint8_t UART_ReceDataAngle(uint8_t *uart_arr_p,
+                           uint8_t *uart_arr_cnt_p,
+                           uint8_t  uart_data,
+                           uint8_t *servo_val_1_p,
+                           uint8_t *servo_val_2_p) {
+    printf("[uart] data %d is 0x%x\n", *uart_arr_cnt_p, uart_data);
+
+    uart_arr_p[*uart_arr_cnt_p] = uart_data;
+    (*uart_arr_cnt_p)++;
+
+    PRINT_ARR_PTR(uart_arr_p, 5, "uart");
+
+    if (*uart_arr_cnt_p == 1 || *uart_arr_cnt_p == 2) {
+        if (uart_data != 0xFF) {
+            memset(uart_arr_p, 0, 5);
+            *uart_arr_cnt_p = 0;
+            printf("[uart] header is invalid!\n");
+        }
+        else {
+        }
+    }
+    else if (*uart_arr_cnt_p == 5) {
+        uint8_t uart_checksum = uart_arr_p[0] + uart_arr_p[1] +
+                                uart_arr_p[2] + uart_arr_p[3];
+        uint8_t uart_checkbit = uart_arr_p[4];
+        uint8_t uart_servo_val_1 = uart_arr_p[2];
+        uint8_t uart_servo_val_2 = uart_arr_p[3];
+        printf("[uart] checksum is %x + %x + %x + %x = %x\n",
+               uart_arr_p[0], uart_arr_p[1], uart_arr_p[2], uart_arr_p[3], uart_checksum);
+        printf("[uart] checkbit is %x\n", uart_checkbit);
+        memset(uart_arr_p, 0, 5);
+
+        *uart_arr_cnt_p = 0;
+        if (uart_checksum == uart_checkbit) {
+            *servo_val_1_p = uart_servo_val_1;
+            *servo_val_2_p = uart_servo_val_2;
             printf("[uart] checksum is ok!\n");
             return UART_STATUS_SUCCESS;
         }

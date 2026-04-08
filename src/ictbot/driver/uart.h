@@ -17,7 +17,15 @@
 #define UART_STATUS_ERROR   2
 
 void UART_Init(uint32_t baud);
-uint8_t UART_RecvData(uint8_t *uart_arr, uint8_t *uart_arr_cnt, uint8_t uart_data, uint8_t *servo_action_p);
+uint8_t UART_RecvDataAction(uint8_t *uart_arr_p,
+                            uint8_t *uart_arr_cnt_p,
+                            uint8_t  uart_data,
+                            uint8_t *servo_action_p);
+uint8_t UART_ReceDataAngle(uint8_t *uart_arr_p,
+                           uint8_t *uart_arr_cnt_p,
+                           uint8_t  uart_data,
+                           uint8_t *servo_val_1_p,
+                           uint8_t *servo_val_2_p);
 void UART_SendData(uint8_t uart_flag);
 
 #endif
